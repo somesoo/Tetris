@@ -15,3 +15,4 @@ cmake -S ../../ -B .
 make
 ./TETRIS
 ```
+s
