@@ -1,52 +1,68 @@
-//
-// Created by johnny on 21.05.2021.
-//
-
 #ifndef TETRIS_TETROMINO_H
 #define TETRIS_TETROMINO_H
-#include <iostream>
-#include <string>
 
 class tetromino {
     bool current;
-    bool tetro[7][4][4] ={
-                    {{0,0,0,0},
-                    {0,0,0,0},
-                    {1,1,1,1},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,1,1,1},
-                    {0,1,0,0},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,1,0,0},
-                    {0,1,1,1},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,1,1,1},
-                    {0,0,1,0},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,1,1,0},
-                    {0,1,1,0},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,1,1,0},
-                    {0,0,1,1},
-                    {0,0,0,0},},
-
-                    {{0,0,0,0},
-                    {0,0,1,1},
-                    {0,1,1,0},
-                    {0,0,0,0},}
-    };
-
+public:
+    bool get_current(){return current;}
+    bool tetro[4][4];
 };
 
+class I_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,0,0,0},
+            {1,1,1,1},
+            {0,0,0,0}};
+};
+class J_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,0,0,1},
+            {0,1,1,1},
+            {0,0,0,0}};
+};
+class L_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,1,0,0},
+            {0,1,1,1},
+            {0,0,0,0}};
+};
+class O_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,1,1,0},
+            {0,1,1,0},
+            {0,0,0,0}};
+};
+class S_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,0,1,1},
+            {0,1,1,0},
+            {0,0,0,0}};
+};
+class T_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {0,0,1,0},
+            {0,1,1,1},
+            {0,0,0,0}};
+};
+class Z_tetromino: public tetromino {
+public:
+    bool tetro[4][4]={
+            {0,0,0,0},
+            {1,1,0,0},
+            {0,1,1,0},
+            {0,0,0,0}};
+};
 
 #endif //TETRIS_TETROMINO_H
