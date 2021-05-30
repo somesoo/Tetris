@@ -7,6 +7,11 @@
 
 
 class game {
+    int score=0;
+    bool isOver = false;
+public:
+    int get_score(){return score;}
+
 
 };
 

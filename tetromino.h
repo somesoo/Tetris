@@ -1,11 +1,13 @@
 #ifndef TETRIS_TETROMINO_H
 #define TETRIS_TETROMINO_H
+#include "point.h"
 
 class tetromino {
     bool current;
 public:
     bool get_current(){return current;}
     bool tetro[4][4];
+    int rotate(int point_y, int point_x, int rotateV);
 };
 
 class I_tetromino: public tetromino {
