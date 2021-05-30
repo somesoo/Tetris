@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 project(TETRIS)
 
-add_executable(${PROJECT_NAME} main.cpp board.cpp tetromino.cpp game.cpp)
+add_executable(${PROJECT_NAME} main.cpp board.cpp tetromino.cpp game.cpp point.h)
 
 set(CURSES_NEED_NCURSES TRUE)
 find_package(Curses REQUIRED)
