@@ -16,6 +16,8 @@ public:
     void new_falling_tetromino();
     void pause();
     void play();
+    void start_game() {isOver= true;}
+    bool is_over() const {return isOver;}
 
 };
 

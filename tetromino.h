@@ -8,6 +8,7 @@ public:
     bool get_current(){return current;}
     bool tetro[4][4];
     int rotate(int point_y, int point_x, int rotateV);
+    int move(int direction);
 };
 
 class I_tetromino: public tetromino {

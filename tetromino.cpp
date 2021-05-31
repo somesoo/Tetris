@@ -27,3 +27,6 @@ int tetromino::rotate(int point_y, int point_x, int rotateV) {
     }
     return pi;
 }
+
+// chose random piece:
+
