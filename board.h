@@ -11,11 +11,12 @@ public:
     ~board();
     int get_height() const {return height;}
     int get_width() const {return width;}
-    bool board_get(int x, int y){return Board[x][y];}
+    bool board_get(int x, int y) const {return Board[x][y];}
     void board_set(int x, int y, bool z){Board[x][y] = z;}
-    bool check_collisions();
-    bool add_to_board();
+    bool check_collisions(); //optional
+    bool add_to_board(/* tetromino */);
     void clear_lines();
+    void clear();
     void game_over();
 
 };
