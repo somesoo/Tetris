@@ -17,7 +17,7 @@ public:
     bool add_to_board(/* tetromino */);
     void clear_lines();
     void clear();
-    void game_over();
+
 
 };
 
