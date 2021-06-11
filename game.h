@@ -11,7 +11,7 @@ public:
     game();
     int get_score(){return score;}
     void check_collisions();
-    void new_falling_tetromino(int current_tetromino);
+    void new_falling_tetromino();
     void pause();
     void play();
     void start_game() {isOver= true;}

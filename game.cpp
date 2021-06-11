@@ -9,53 +9,62 @@
 game::game() {
     board plansza;
     start_game();
+    unsigned int thick = 500;
     while(is_over()){
-    int mv = get_move();
-        move(mv);
-    refresh();}
+        std::this_thread::sleep_for(std::chrono::milliseconds(thick));
+        new_falling_tetromino();
+//    int mv = get_move();
+//        move(mv);
+    refresh();
+    }
 
 }
-int choose_random(int & current)
+
+int choose_random()
 {
     srand((unsigned) time(NULL));
-    int newpiece=0;
-    newpiece=rand()%7+1;
-    while(newpiece==current)
-        newpiece=rand()%7+1;
+    int newpiece=rand()%7+1;
     printw("%d", newpiece);
-    current=newpiece;
     return newpiece;
 }
-void game::new_falling_tetromino(int current_tetromino){
-    switch (choose_random(current_tetromino)) {
+void game::new_falling_tetromino(){
+    switch (choose_random()) {
         case 1:{
             I_tetromino new_piece;
+            new_piece.draw();
             break;}
         case 2:{
             J_tetromino new_piece;
+            new_piece.draw();
             break;
         }
         case 3:{
             L_tetromino new_piece;
+            new_piece.draw();
             break;
         }
         case 4:{
             O_tetromino new_piece;
+            new_piece.draw();
             break;
         }
         case 5:{
             S_tetromino new_piece;
+            new_piece.draw();
             break;
         }
         case 6:{
             Z_tetromino new_piece;
+            new_piece.draw();
             break;
         }
         case 7:{
             T_tetromino new_piece;
+            new_piece.draw();
             break;
         }
     }
+
 }
 
 int game::get_move()
