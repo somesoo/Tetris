@@ -1,6 +1,16 @@
 #include "tetromino.h"
+#include <ncurses.h>
 
-
+void tetromino::draw(){
+    for(int px = 0; px < 5; px++)
+			for(int py = 0; py < 5; py++) {
+                if (tetro[px][py])
+                    printw("-");
+                    printw("\n");
+			}
+				//if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] != L'.')
+				//	screen[(nCurrentY + py + 2)*nScreenWidth + (nCurrentX + px + 2)] = nCurrentPiece + 65;
+}
 int tetromino::rotate(int point_y, int point_x, int rotateV) {
     int pi = 0;
     switch (rotateV % 4)

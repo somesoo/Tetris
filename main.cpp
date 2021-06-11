@@ -11,6 +11,5 @@ int main()
     tetris.start_game();
     getch();
     endwin();
-
     return 0;
 }

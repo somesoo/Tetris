@@ -1,6 +1,7 @@
 #ifndef TETRIS_TETROMINO_H
 #define TETRIS_TETROMINO_H
 #include "point.h"
+#include <ncurses.h>
 
 class tetromino {
     bool current;
@@ -8,11 +9,13 @@ public:
     bool get_current(){return current;}
     bool tetro[4][4];
     int rotate(int point_y, int point_x, int rotateV);
-    int move(int direction);
+    int moving(int direction);
+    void draw();
 };
 
 class I_tetromino: public tetromino {
 public:
+    void info(){printw("hey");}
     bool tetro[4][4]={
             {0,0,0,0},
             {0,0,0,0},
