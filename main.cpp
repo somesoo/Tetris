@@ -6,8 +6,8 @@
 int main()
 {
     initscr();
-    game tetris;
     noecho();
+    game tetris;
     tetris.start_game();
     getch();
     endwin();
