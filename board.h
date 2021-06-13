@@ -4,7 +4,7 @@
 
 class board {
     bool **Board;
-    const int height = 20;
+    const int height = 21;
     const int width = 10;
 public:
     board();

@@ -13,9 +13,9 @@ public:
     int get_x(){return x;}
     int get_y(){return y;}
     point(){x=0; y=0;}
-    point(int px,int py): x(px), y(py){}
+    point(int py,int px): x(px), y(py){}
     void setX(int newX){x=newX;}
-    void setY(int newY){x=newY;}
+    void setY(int newY){y=newY;}
 };
 
 

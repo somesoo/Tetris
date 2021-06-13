@@ -8,7 +8,7 @@ class tetromino {
     int rotation=rand()%3;
     point possition;
 public:
-    tetromino(int px, int py, int currentPiece, int Rotation): possition(px, py), current(currentPiece), rotation(Rotation) {}
+    tetromino(int py, int px, int currentPiece, int Rotation): possition(py, px), current(currentPiece), rotation(Rotation) {}
     int get_current(){return current;}
     std::string tetro[7]={
             {"..I...I...I...I."},
@@ -21,12 +21,11 @@ public:
     };
     point get_poss(){return possition;}
     void set_possition_y(int y){possition.setY(y);}
-    void set_possition_x(int x){possition.setY(x);}
-    int get_curr(){return current;}
+    void set_possition_x(int x){possition.setX(x);}
     int get_rotation(){return rotation;}
     void set_rotation(int rot){rotation=rot;}
+
     int rotate(int point_y, int point_x, int rotateV);
-    int moving(int direction);
     void draw(int rotation, char letter, int currentPiece, point currentpos);
 };
 

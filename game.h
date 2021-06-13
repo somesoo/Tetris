@@ -14,13 +14,13 @@ public:
     static int get_score();
     bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix);
     point possition(){point poss;return poss;}
-    void new_falling_tetromino();
+    tetromino new_falling_tetromino();
     void pause();
     void play();
     void start_game();
     bool is_over() const {return isOver;}
     void game_over() {isOver=true;}
-    void moving(tetromino &piece);
+    void moving(tetromino &piece, board &matrix);
 
 };
 static int score = 0;

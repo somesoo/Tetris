@@ -4,12 +4,10 @@
 void tetromino::draw(int rot, char letter, int currentPiece, point currentpos) {
     for (int py = 0; py < 4; py++)
         for (int px = 0; px < 4; px++) {
-            move(currentpos.get_x()+px,currentpos.get_y()+py);
+            move(currentpos.get_x()+px,currentpos.get_y()+py+6);
             if (tetro[currentPiece][rotate(py, px, rot)]!='.')
                 printw("%c", letter);
         }
-        //if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] != L'.')
-        //	screen[(nCurrentY + py + 2)*nScreenWidth + (nCurrentX + px + 2)] = nCurrentPiece + 65;
     }
 
 int tetromino::rotate(int point_y, int point_x, int rotateV) {
@@ -21,16 +19,16 @@ int tetromino::rotate(int point_y, int point_x, int rotateV) {
             pi = point_x * 4 + point_y;
             break;
         // array begin from 12 - 90 degrees rotation
-        case 3:
+        case 1:
             pi = 12 + point_x - (point_y * 4);
             break;
         // array begin from 15 - 180 degrees rotation
-        case 1:
-            pi = 15 - (point_y * 4) - point_x;
+        case 2:
+            pi = 15 - (point_x * 4) - point_y;
             break;
         // array begin from 3 - 270 degrees rotation
-        case 2:
-            pi = 3 - point_y + (point_x * 4);
+        case 3:
+            pi = 3 - point_x + (point_y * 4);
             break;
     }
     return pi;
