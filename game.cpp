@@ -8,59 +8,61 @@
 
 game::game() {
     board plansza;
-    start_game();
+}
+
+void game::start_game() {
+    isOver = false;
     unsigned int thick = 500;
-    while(is_over()){
+    while(!is_over()){
         std::this_thread::sleep_for(std::chrono::milliseconds(thick));
         new_falling_tetromino();
 //    int mv = get_move();
 //        move(mv);
-    refresh();
+        refresh();
     }
-
 }
-
 int choose_random()
 {
     srand((unsigned) time(NULL));
     int newpiece=rand()%7+1;
-    printw("%d", newpiece);
+    //printw("%d", newpiece);
     return newpiece;
 }
 void game::new_falling_tetromino(){
     switch (choose_random()) {
-        case 1:{
-            I_tetromino new_piece;
-            new_piece.draw();
+    //switch (4) {
+            case 1:{
+            I_tetromino new_pieceI;
+            new_pieceI.draw(0, 'I');
             break;}
         case 2:{
-            J_tetromino new_piece;
-            new_piece.draw();
+            J_tetromino new_pieceJ;
+            new_pieceJ.draw(0, 'J');
             break;
         }
         case 3:{
-            L_tetromino new_piece;
-            new_piece.draw();
+            L_tetromino new_pieceL;
+            new_pieceL.draw(0, 'L');
             break;
         }
         case 4:{
-            O_tetromino new_piece;
-            new_piece.draw();
+            O_tetromino new_pieceO;
+            new_pieceO.draw(0, 'O');
             break;
         }
         case 5:{
-            S_tetromino new_piece;
-            new_piece.draw();
+            S_tetromino new_pieceS;
+            new_pieceS.draw(0, 'S');
             break;
         }
         case 6:{
-            Z_tetromino new_piece;
-            new_piece.draw();
+            Z_tetromino new_pieceZ;
+            new_pieceZ.draw(0, 'Z');
             break;
         }
         case 7:{
-            T_tetromino new_piece;
-            new_piece.draw();
+            T_tetromino new_pieceT;
+            new_pieceT.draw(0, 'T');
             break;
         }
     }

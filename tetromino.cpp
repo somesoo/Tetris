@@ -1,14 +1,22 @@
 #include "tetromino.h"
 #include <ncurses.h>
 
-void tetromino::draw(){
-    for(int px = 0; px < 5; px++)
-			for(int py = 0; py < 5; py++) {
-                if (tetro[px][py])
-                    printw("-");
-                    printw("\n");
-			}
-				//if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] != L'.')
+void tetromino::draw(int rot, char letter){
+    for(int px = 0; px < 4; px++) {
+        for (int py = 0; py < 4; py++) {
+            move(1+px, 5+py);
+            if(tetro[px][py]){
+                printw("%c", letter);
+                refresh();}
+            else
+            printw("-");
+        }
+        move(5+px, 20);
+        printw("enter char:%d", px);
+        refresh();
+        getchar();
+    }
+    			//if (tetromino[nCurrentPiece][Rotate(px, py, nCurrentRotation)] != L'.')
 				//	screen[(nCurrentY + py + 2)*nScreenWidth + (nCurrentX + px + 2)] = nCurrentPiece + 65;
 }
 int tetromino::rotate(int point_y, int point_x, int rotateV) {
