@@ -2,17 +2,35 @@
 #define TETRIS_TETROMINO_H
 #include "point.h"
 #include <ncurses.h>
-
+#include <string>
 class tetromino {
-    bool current;
+    int current;
+    int rotation=rand()%3;
+    point possition;
 public:
-    bool get_current(){return current;}
-    bool tetro[4][4];
+    tetromino(int px, int py, int currentPiece, int Rotation): possition(px, py), current(currentPiece), rotation(Rotation) {}
+    int get_current(){return current;}
+    std::string tetro[7]={
+            {"..I...I...I...I."},
+            {"..J..JJ...J....."},
+            {".....LL..LL....."},
+            {"..O..OO..O......"},
+            {".S...SS...S....."},
+            {".T...T...TT....."},
+            {"..Z...Z..ZZ....."}
+    };
+    point get_poss(){return possition;}
+    void set_possition_y(int y){possition.setY(y);}
+    void set_possition_x(int x){possition.setY(x);}
+    int get_curr(){return current;}
+    int get_rotation(){return rotation;}
+    void set_rotation(int rot){rotation=rot;}
     int rotate(int point_y, int point_x, int rotateV);
     int moving(int direction);
-    void draw(int rotation, char letter);
+    void draw(int rotation, char letter, int currentPiece, point currentpos);
 };
 
+/*
 class I_tetromino: public tetromino {
 public:
     I_tetromino(){move(20, 20);printw("I - piece");}
@@ -77,5 +95,5 @@ public:
             {0,1,1,0},
             {0,0,0,0}};
 };
-
+*/
 #endif //TETRIS_TETROMINO_H

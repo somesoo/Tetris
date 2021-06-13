@@ -9,7 +9,7 @@ int main()
     noecho();
     game tetris;
     tetris.start_game();
-    getch();
+    getchar();
     endwin();
     return 0;
 }

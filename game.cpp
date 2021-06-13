@@ -1,82 +1,43 @@
 #include <ncurses.h>
 #include <time.h>
-#include <iostream>
 #include <thread>
 #include "game.h"
-#include "tetromino.h"
 
 
 game::game() {
-    board plansza;
-}
 
+}
+//int choose_random()
+//{
+//    srand((unsigned) time(NULL));
+//    int newpiece=rand()%7+1;
+//    return newpiece;
+//}
 void game::start_game() {
+    srand((unsigned) time(NULL));
+    board plansza;
     isOver = false;
-    unsigned int thick = 500;
+    unsigned int thick = 100;
+    tetromino piece(2,4, rand()%6,rand()%3);
     while(!is_over()){
         std::this_thread::sleep_for(std::chrono::milliseconds(thick));
-        new_falling_tetromino();
-//    int mv = get_move();
-//        move(mv);
+        piece.set_possition_x(piece.get_poss().get_x()+1);      //default gravity
+            if(piece.get_poss().get_x()>plansza.get_height()-4)     //testing gravity
+                game_over();
+        clear();
+        piece.draw(piece.get_rotation(), 'X', piece.get_curr(), piece.get_poss());
+        plansza.draw_self();
+
+        //moving(piece);
+//        move(21, 0);
+//        printw("Score: %d", score);
         refresh();
+
     }
 }
-int choose_random()
+void game::moving(tetromino &piece)
 {
-    srand((unsigned) time(NULL));
-    int newpiece=rand()%7+1;
-    //printw("%d", newpiece);
-    return newpiece;
-}
-void game::new_falling_tetromino(){
-    switch (choose_random()) {
-    //switch (4) {
-            case 1:{
-            I_tetromino new_pieceI;
-            new_pieceI.draw(0, 'I');
-            break;}
-        case 2:{
-            J_tetromino new_pieceJ;
-            new_pieceJ.draw(0, 'J');
-            break;
-        }
-        case 3:{
-            L_tetromino new_pieceL;
-            new_pieceL.draw(0, 'L');
-            break;
-        }
-        case 4:{
-            O_tetromino new_pieceO;
-            new_pieceO.draw(0, 'O');
-            break;
-        }
-        case 5:{
-            S_tetromino new_pieceS;
-            new_pieceS.draw(0, 'S');
-            break;
-        }
-        case 6:{
-            Z_tetromino new_pieceZ;
-            new_pieceZ.draw(0, 'Z');
-            break;
-        }
-        case 7:{
-            T_tetromino new_pieceT;
-            new_pieceT.draw(0, 'T');
-            break;
-        }
-    }
-
-}
-
-int game::get_move()
-{
-    int key = getchar();
-    return key;
-}
-
-void game::move(int num)
-{
+    int num = getchar();
 //  right   279167 // 100
 //  left    279168 // 97
 //  down    279166 // 115
@@ -84,25 +45,59 @@ void game::move(int num)
 //  space   32
     switch (num) {
         case 100:
-            printw("right\n");
+            //printw("right\n");
+            piece.set_possition_y(piece.get_poss().get_y()+1);
             break;
         case 97:
-            printw("left\n");
+            //printw("left\n");
+            piece.set_possition_y(piece.get_poss().get_y()-1);
             break;
         case 115:
-            printw("down\n");
+            //printw("down\n");
+            piece.set_possition_x(piece.get_poss().get_x()+1); // moving piece down is working fine
             break;
         case 120:
-            printw("rotate\n");
+            //printw("rotate\n");
+            //piece.set_rotation(getchar());
+            piece.set_rotation(piece.get_rotation()+1);
             break;
         case 32:
-            printw("space\n");
+            //printw("space\n");
+            piece.set_rotation(piece.get_rotation()+1);
             break;
         case 113:
             game_over();
             break;
         default:
+            move(8,20);
             printw("wrong input");
     }
 
+}
+
+bool game::check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix){
+    for (int px = 0; px < 4; px++)
+        for (int py = 0; py < 4; py++)
+        {
+            // Get index into piece
+            int pi = piece.rotate(py, px, currentRotation);
+
+            // Get index into field
+//            point fi = {(posY + py) * matrix.get_width(), (posX + px)};
+
+            // Check that test is in bounds. Note out of bounds does
+            // not necessarily mean a fail, as the long vertical piece
+            // can have cells that lie outside the boundary, so we'll
+            // just ignore them
+            if (posX + px >= 0 && posX + px < matrix.get_width())
+            {
+                if (posY + py >= 0 && posY + py < matrix.get_height())
+                {
+                    // In Bounds so do collision check
+                    if (piece.tetro[currentTetromino][pi] != L'.' && matrix.board_get((posY + py) * matrix.get_width(),(posX + px))!= 0)
+                        return false; // fail on first hit
+                }
+            }
+        }
+    return true;
 }

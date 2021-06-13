@@ -1,4 +1,6 @@
 #include "board.h"
+#include "point.h"
+#include "tetromino.h"
 #ifndef TETRIS_GAME_H
 #define TETRIS_GAME_H
 
@@ -9,18 +11,18 @@ class game {
     bool isOver = true;
 public:
     game();
-    int get_score(){return score;}
-    void check_collisions();
+    static int get_score();
+    bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix);
+    point possition(){point poss;return poss;}
     void new_falling_tetromino();
     void pause();
     void play();
     void start_game();
     bool is_over() const {return isOver;}
-    void game_over() {isOver=false;}
-    void move(int num);
-    int get_move();
+    void game_over() {isOver=true;}
+    void moving(tetromino &piece);
 
 };
-
+static int score = 0;
 
 #endif //TETRIS_GAME_H
