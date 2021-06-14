@@ -32,7 +32,7 @@ void game::start_game() {
     noecho();
     cbreak();
     board plansza;
-    unsigned int tick = 500;
+    unsigned int tick = 200;
     while(!is_over()) {
         //default game wait time
         //std::this_thread::sleep_for(std::chrono::milliseconds(tick));
@@ -77,7 +77,7 @@ void game::start_game() {
                 check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
                                piece.get_poss().get_x());
 
-                //clear_lines(plansza, piece);
+                clear_lines(plansza, piece);
 
             }
 
@@ -194,19 +194,17 @@ void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino,
                     matrix.board_set((posY+py),(posX+px),1);}
 }
 
-//void game::clear_lines(board &matrix, tetromino &piece) {
-//
-//    int currentFullRovs = 0;
-//    int currentRowStatus = 0;
-//    int i = 0, j = 0;
-//
-//    for(i;i<4;i++)
-//        for(j;j<matrix.get_width();j++) {
-//            if (!matrix.board_get(i+piece.get_poss().get_x(), j))
-//                continue;
-//            else
-//                printw("not full line");
-//
-//
-//        }
-//}
+void game::clear_lines(board &matrix, tetromino &piece) {
+
+    for(int i=0; i<matrix.get_height()-1; i++) {
+        if(matrix.checkRows(i)){
+            for(int j=0; j<matrix.get_width()+1; j++)
+                matrix.board_set(j, i,0);
+        for(int j=i;j<matrix.get_height()-1;j++)
+            for(int a=0; a<matrix.get_width()+1;a++)
+            //matrix.board_set(j, a, matrix.board_get(j+1,i+1));
+        break;
+        }
+    }
+}
+
