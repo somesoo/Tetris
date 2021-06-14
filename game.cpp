@@ -9,7 +9,6 @@ int game::piece_count = 0;
 game::game()
 {
     srand((unsigned) time(NULL));
-
 }
 
 
@@ -195,11 +194,14 @@ void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino,
 }
 
 void game::clear_lines(board &matrix, tetromino &piece) {
-
+int combopoints=0;
     for(int i=0; i<matrix.get_height()-1; i++) {
-        if(matrix.checkRows(i)){
-            for(int j=0; j<matrix.get_width()+1; j++)
-                matrix.board_set(j, i,0);
+        if(matrix.checkRows(i)) {
+            combopoints++;
+            for (int j = 0; j < matrix.get_width() + 1; j++)
+                matrix.board_set(j, i, 0);
+            matrix.move_lines(i);
         }
     }
+game::score=game::score+(combopoints*25);
 }
