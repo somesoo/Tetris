@@ -29,10 +29,21 @@ void board::draw_self(){
     move(21,6);
     for(int j = 0; j < get_width()+2; j++)
         printw("X");
-    refresh();
+    //refresh();
 }
 board::~board(){
     for(int i=0;i<get_width();++i)
         delete[] Board[i];
     delete[] Board;
+}
+
+void board::clear_lines() {
+    int a=0;
+    for(int i = 0; i<get_height(); i++)
+        for(int j = 0; j<get_width(); j++)
+            if(Board[i][j]==1)
+                a++;
+            if(a==8)
+                printw("Clear line");
+
 }

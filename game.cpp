@@ -11,20 +11,22 @@ void game::start_game() {
     srand((unsigned) time(NULL));
     board plansza;
     isOver = false;
-    unsigned int tick = 100;
-    tetromino piece = new_falling_tetromino();
+    unsigned int tick = 500;
     while(!is_over()){
         std::this_thread::sleep_for(std::chrono::milliseconds(tick));
         clear();
+        tetromino piece = new_falling_tetromino();
+        tetromino piece2 =new_falling_tetromino();
         if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza))
             piece.set_possition_x(piece.get_poss().get_x()+1);
         check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x());
         piece.draw(piece.get_rotation(), 'X', piece.get_current(), piece.get_poss());
+
         plansza.draw_self();
         move(22, 6);
         printw("Score: %d", score);
         refresh();
-        moving(piece, plansza);
+        //moving(piece, plansza);
     }
 }
 

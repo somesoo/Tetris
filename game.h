@@ -9,9 +9,9 @@
 class game {
     bool isOver = true;
 public:
-    game();
-    static int score;
-    static int piece_count;
+    //game();
+//    static int score;
+//    static int piece_count;
     bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix);
     point possition(){point poss;return poss;}
     tetromino new_falling_tetromino();
@@ -25,6 +25,6 @@ public:
 
 };
 static int score = 0;
-static int piece_count=0;
+static int piece_count = 0;
 
 #endif //TETRIS_GAME_H

@@ -13,7 +13,6 @@ public:
     int get_width() const {return width;}
     bool board_get(int x, int y) const {return Board[x][y];}
     void board_set(int x, int y, bool z){Board[x][y] = z;}
-    bool check_collisions(); //optional
     bool add_to_board(/* tetromino */);
     void clear_lines();
     void clear();
