@@ -7,14 +7,15 @@
 // start/stop game, make new piece
 
 class game {
-    int score=0;
     bool isOver = true;
 public:
     game();
-    static int get_score();
+    static int score;
+    static int piece_count;
     bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix);
     point possition(){point poss;return poss;}
     tetromino new_falling_tetromino();
+    void check_for_lock(tetromino &piece, board &matrix, int currentTetromino, int currentRotation, int posY, int posX);
 //    void pause();
 //    void play();
     void start_game();
@@ -24,5 +25,6 @@ public:
 
 };
 static int score = 0;
+static int piece_count=0;
 
 #endif //TETRIS_GAME_H
