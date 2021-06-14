@@ -60,7 +60,7 @@ void game::start_game() {
 
             // default gravity
             if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
-            piece.set_possition_x(piece.get_poss().get_x() + 1);
+            //piece.set_possition_x(piece.get_poss().get_x() + 1);
 
             //get movement from player
             moving(piece, plansza);
@@ -124,6 +124,7 @@ void game::moving(tetromino &piece, board &matrix){
             //printw("right\n");
             if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()+1,piece.get_poss().get_x(), piece, matrix))
             piece.set_possition_y(piece.get_poss().get_y()+1);
+            piece.set_possition_x(piece.get_poss().get_x()+1);
             move(8,20);
             printw("right");
             refresh();
@@ -132,6 +133,7 @@ void game::moving(tetromino &piece, board &matrix){
             //printw("left\n");
             if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()-1,piece.get_poss().get_x(), piece, matrix))
             piece.set_possition_y(piece.get_poss().get_y()-1);
+            piece.set_possition_x(piece.get_poss().get_x()+1);
             move(8,20);
             printw("left");
             refresh();
@@ -149,6 +151,7 @@ void game::moving(tetromino &piece, board &matrix){
             //piece.set_rotation(getchar());
             if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
             piece.set_rotation(piece.get_rotation()+1);
+            piece.set_possition_x(piece.get_poss().get_x()+1);
             move(8,20);
             printw("rotate");
             refresh();
@@ -157,6 +160,7 @@ void game::moving(tetromino &piece, board &matrix){
             //printw("space\n");
             if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
             piece.set_rotation(piece.get_rotation()+1);
+            piece.set_possition_x(piece.get_poss().get_x()+1);
             move(8,20);
             printw("rotate");
             refresh();
