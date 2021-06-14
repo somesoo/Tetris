@@ -48,8 +48,10 @@ bool board::checkRows(int rowNum) {
 }
 
 void board::move_lines(int rowcleared) {
-    for (int i = 0; i < get_height() - 1; i++)
-
+    for(int j=rowcleared; j>0; j--)
+        for (int i = 0; i < get_width()+1; i++)
+            board_set(i, j,board_get(i,j-1));
+}
 board::~board(){
     for(int i=0;i<get_width();++i)
         delete[] Board[i];
