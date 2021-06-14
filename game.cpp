@@ -3,35 +3,94 @@
 #include <thread>
 #include "game.h"
 
+int game::score = 0;
+int game::piece_count = 0;
+
+game::game()
+{
+    srand((unsigned) time(NULL));
+
+}
+
+
+
+void game::game_over() {
+    {isOver=true;}
+    clear();
+    move(0,0);
+    printw("game over\nYour score: %i", game::score);
+    refresh();
+}
 tetromino game::new_falling_tetromino() {
     tetromino piece(4,0, rand()%6,rand()%3);
     return piece;
 }
 void game::start_game() {
-    srand((unsigned) time(NULL));
     board plansza;
-    isOver = false;
-    unsigned int tick = 500;
-    while(!is_over()){
+    unsigned int tick = 200;
+    while(!is_over()) {
+        //default game wait time
         std::this_thread::sleep_for(std::chrono::milliseconds(tick));
+        //clearing screen for new possition
         clear();
+        //creating new piece to be shown on board
         tetromino piece = new_falling_tetromino();
-        tetromino piece2 =new_falling_tetromino();
-        if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza))
-            piece.set_possition_x(piece.get_poss().get_x()+1);
-        check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x());
-        piece.draw(piece.get_rotation(), 'X', piece.get_current(), piece.get_poss());
+        //tetromino piece2 = new_falling_tetromino();
 
-        plansza.draw_self();
-        move(22, 6);
-        printw("Score: %d", score);
+
+        //game over conndition
+        if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza))
+            game_over();
+        //loop to check while piece can still move down, if so do it
+        while(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
+            std::this_thread::sleep_for(std::chrono::milliseconds(tick));
+
+
+            //clearing screen for new possition with current piece
+            clear();
+
+
+            // default gravity
+            if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza)){
+            piece.set_possition_x(piece.get_poss().get_x() + 1);}
+
+
+            //updating score
+            if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
+            {
+                game::score=game::score+10;
+                game::piece_count++;
+            }
+
+
+            //locking piece into possition
+            check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
+                           piece.get_poss().get_x());
+
+
+            //drawing current piece
+            piece.draw(piece.get_rotation(), 'X', piece.get_current(), piece.get_poss());
+
+
+            //drawing board - boundary and already solid places
+            plansza.draw_self();
+
+            //drawing score and piece counter
+            move(22, 0);
+            printw("Score: %i\nPiece counter: %i", game::score, game::piece_count);
+
+
+            //updating screen
+            refresh();
+            //moving(piece, plansza);
+        }
+        move(0,20);
+        printw("end second loop");
         refresh();
-        //moving(piece, plansza);
     }
 }
 
-void game::moving(tetromino &piece, board &matrix)
-{
+void game::moving(tetromino &piece, board &matrix){
     int num = getchar();
 //  right   279167 // 100
 //  left    279168 // 97
@@ -89,5 +148,7 @@ void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino,
     if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
         for (int px = 0; px < 4; px++)
             for (int py = 0; py < 4; py++)
-                if(piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.'){matrix.board_set((posY+py),(posX+px),1); piece_count++;}
+                if(piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.'){
+                    matrix.board_set((posY+py),(posX+px),1);
+                }
 }
