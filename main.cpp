@@ -1,4 +1,4 @@
-#include<ncurses.h>
+#include <ncurses.h>
 #include "game.h"
 
 int main()
