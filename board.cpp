@@ -39,6 +39,15 @@ void board::draw_self(){
                 printw("X");
             }
 }
+
+bool board::checkRows(int rowNum) {
+    for (int i = 0; i < get_width()+1; i++)
+        if(!board_get(i, rowNum))
+            return false;
+    return true;
+}
+
+
 board::~board(){
     for(int i=0;i<get_width();++i)
         delete[] Board[i];

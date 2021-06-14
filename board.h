@@ -15,6 +15,7 @@ public:
     void board_set(int x, int y, bool z){Board[x][y] = z;}
     bool add_to_board(/* tetromino */); //in game class
     void clear_lines();
+    bool checkRows(int rowNumber);
     void draw_self();
 };
 
