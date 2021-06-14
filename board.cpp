@@ -47,6 +47,8 @@ bool board::checkRows(int rowNum) {
     return true;
 }
 
+void board::move_lines(int rowcleared) {
+    for (int i = 0; i < get_height() - 1; i++)
 
 board::~board(){
     for(int i=0;i<get_width();++i)
