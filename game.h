@@ -20,6 +20,7 @@ public:
     bool is_over() const {return isOver;}
     void game_over();
     void moving(tetromino &piece, board &matrix);
+    void clear_lines(board &matrix, tetromino &piece);
 };
 
 #endif //TETRIS_GAME_H

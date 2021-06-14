@@ -16,6 +16,9 @@ game::game()
 
 void game::game_over() {
     {isOver=true;}
+    move(0,0);
+    printw("game over");
+    getchar();
     clear();
     move(0,0);
     printw("game over\nYour score: %i", game::score);
@@ -26,15 +29,19 @@ tetromino game::new_falling_tetromino() {
     return piece;
 }
 void game::start_game() {
+    noecho();
+    cbreak();
     board plansza;
-    unsigned int tick = 200;
+    unsigned int tick = 500;
     while(!is_over()) {
         //default game wait time
-        std::this_thread::sleep_for(std::chrono::milliseconds(tick));
+        //std::this_thread::sleep_for(std::chrono::milliseconds(tick));
         //clearing screen for new possition
         clear();
         //creating new piece to be shown on board
         tetromino piece = new_falling_tetromino();
+
+
         //tetromino piece2 = new_falling_tetromino();
 
 
@@ -46,26 +53,33 @@ void game::start_game() {
             std::this_thread::sleep_for(std::chrono::milliseconds(tick));
 
 
+
             //clearing screen for new possition with current piece
             clear();
 
 
             // default gravity
-            if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza)){
-            piece.set_possition_x(piece.get_poss().get_x() + 1);}
+            if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
+            piece.set_possition_x(piece.get_poss().get_x() + 1);
+
+            //get movement from player
+            moving(piece, plansza);
 
 
-            //updating score
-            if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
-            {
-                game::score=game::score+10;
+
+
+            //updating score if piece get locked
+            if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
+                game::score = game::score + 10;
                 game::piece_count++;
+
+                //locking piece into possition
+                check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
+                               piece.get_poss().get_x());
+
+                //clear_lines(plansza, piece);
+
             }
-
-
-            //locking piece into possition
-            check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
-                           piece.get_poss().get_x());
 
 
             //drawing current piece
@@ -82,16 +96,24 @@ void game::start_game() {
 
             //updating screen
             refresh();
-            //moving(piece, plansza);
+
         }
-        move(0,20);
-        printw("end second loop");
-        refresh();
     }
 }
 
+int khirt()
+{
+    nodelay(stdscr, TRUE);
+    int num = getch();
+    if(num!=ERR)
+        return num;
+    else
+        return 115;
+}
 void game::moving(tetromino &piece, board &matrix){
-    int num = getchar();
+
+    int num = khirt();
+
 //  right   279167 // 100
 //  left    279168 // 97
 //  down    279166 // 115
@@ -102,27 +124,42 @@ void game::moving(tetromino &piece, board &matrix){
             //printw("right\n");
             if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()+1,piece.get_poss().get_x(), piece, matrix))
             piece.set_possition_y(piece.get_poss().get_y()+1);
+            move(8,20);
+            printw("right");
+            refresh();
             break;
         case 97:
             //printw("left\n");
             if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()-1,piece.get_poss().get_x(), piece, matrix))
             piece.set_possition_y(piece.get_poss().get_y()-1);
+            move(8,20);
+            printw("left");
+            refresh();
             break;
         case 115:
             //printw("down\n");
             if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
             piece.set_possition_x(piece.get_poss().get_x()+1); // moving piece down is working fine
+            move(8,20);
+            printw("down");
+            refresh();
             break;
         case 120:
             //printw("rotate\n");
             //piece.set_rotation(getchar());
             if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
             piece.set_rotation(piece.get_rotation()+1);
+            move(8,20);
+            printw("rotate");
+            refresh();
             break;
         case 32:
             //printw("space\n");
             if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
             piece.set_rotation(piece.get_rotation()+1);
+            move(8,20);
+            printw("rotate");
+            refresh();
             break;
         case 113:
             game_over();
@@ -130,6 +167,7 @@ void game::moving(tetromino &piece, board &matrix){
         default:
             move(8,20);
             printw("wrong input");
+            refresh();
     }
 }
 
@@ -145,10 +183,26 @@ bool game::check_collisions(int currentTetromino, int currentRotation, int posY,
 }
 
 void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino, int currentRotation, int posY, int posX) {
-    if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
+    //if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
         for (int px = 0; px < 4; px++)
             for (int py = 0; py < 4; py++)
                 if(piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.'){
-                    matrix.board_set((posY+py),(posX+px),1);
-                }
+                    matrix.board_set((posY+py),(posX+px),1);}
 }
+
+//void game::clear_lines(board &matrix, tetromino &piece) {
+//
+//    int currentFullRovs = 0;
+//    int currentRowStatus = 0;
+//    int i = 0, j = 0;
+//
+//    for(i;i<4;i++)
+//        for(j;j<matrix.get_width();j++) {
+//            if (!matrix.board_get(i+piece.get_poss().get_x(), j))
+//                continue;
+//            else
+//                printw("not full line");
+//
+//
+//        }
+//}
