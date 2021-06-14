@@ -15,3 +15,11 @@ cmake -S ../../ -B .
 make
 ./TETRIS
 ```
+
+**Basic player movement:**
+```
+a - go left
+d - go right
+x - rotate
+space - rotate
+```
