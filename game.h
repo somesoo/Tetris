@@ -15,8 +15,8 @@ public:
     bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix);
     point possition(){point poss;return poss;}
     tetromino new_falling_tetromino();
-    void pause();
-    void play();
+//    void pause();
+//    void play();
     void start_game();
     bool is_over() const {return isOver;}
     void game_over() {isOver=true;}
