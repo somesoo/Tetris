@@ -24,16 +24,16 @@ void board::draw_self(){
     //boundary
     for (int i = 0; i < get_height(); i++) {
         move(i+1, 6); // otherwise the box won't draw
-        printw("X");
+        printw("|");
         move(i+1, get_width()+7);
-        printw("X");
+        printw("|");
         }
     move(21,6);
     for(int j = 0; j < get_width()+2; j++)
-        printw("X");
+        printw("-");
     //currentpieces
-    for(int i=1; i<get_width();i++)
-        for(int j=1;j<get_height();j++)
+    for(int i=1; i<get_width()+1;i++)
+        for(int j=1;j<get_height()-1;j++)
             if(Board[i][j]) {
                 move(j+1, i+6);
                 printw("X");
@@ -51,7 +51,7 @@ void board::clear_lines() {
         for(int j = 0; j<get_width(); j++)
             if(Board[i][j]==1)
                 a++;
-            if(a==8)
+            if(a==10)
                 printw("Clear line");
 
 }

@@ -13,9 +13,8 @@ public:
     int get_width() const {return width;}
     bool board_get(int x, int y) const {return Board[x][y];}
     void board_set(int x, int y, bool z){Board[x][y] = z;}
-    bool add_to_board(/* tetromino */);
+    bool add_to_board(/* tetromino */); //in game class
     void clear_lines();
-    void clear();
     void draw_self();
 };
 
