@@ -11,10 +11,8 @@ game::game()
     srand((unsigned) time(NULL));
 }
 
-
-
 void game::game_over() {
-    {isOver=true;}
+    isOver=true;
     move(0,0);
     printw("game over");
     getchar();
@@ -23,6 +21,8 @@ void game::game_over() {
     printw("game over\nYour score: %i", game::score);
     refresh();
 }
+
+//function that chooses random piece and it rotation, as well as set it start coordinates
 tetromino game::new_falling_tetromino() {
     tetromino piece(4,0, rand()%6,rand()%3);
     return piece;
@@ -31,7 +31,7 @@ void game::start_game() {
     noecho();
     cbreak();
     board plansza;
-    unsigned int tick = 200;
+    unsigned int tick = 500;
     while(!is_over()) {
         //default game wait time
         //std::this_thread::sleep_for(std::chrono::milliseconds(tick));
@@ -52,17 +52,16 @@ void game::start_game() {
             std::this_thread::sleep_for(std::chrono::milliseconds(tick));
 
 
-
             //clearing screen for new possition with current piece
             clear();
 
 
             // default gravity
             if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
-            //piece.set_possition_x(piece.get_poss().get_x() + 1);
+                //piece.set_possition_x(piece.get_poss().get_x() + 1);
 
-            //get movement from player
-            moving(piece, plansza);
+                //get movement from player
+                moving(piece, plansza);
 
 
 
