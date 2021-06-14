@@ -13,7 +13,7 @@ board::board() {
 //                Board[i][j]= true;
         }
     }
-    for (int i = 0; i < get_width(); ++i)
+    for (int i = 0; i < get_width()+1; ++i)
         Board[i][20]=true;
         for(int j = 0;j<get_height(); j++){
             Board[0][j]=true;
@@ -43,15 +43,4 @@ board::~board(){
     for(int i=0;i<get_width();++i)
         delete[] Board[i];
     delete[] Board;
-}
-
-void board::clear_lines() {
-    int a=0;
-    for(int i = 0; i<get_height(); i++)
-        for(int j = 0; j<get_width(); j++)
-            if(Board[i][j]==1)
-                a++;
-            if(a==10)
-                printw("Clear line");
-
 }
