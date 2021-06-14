@@ -4,6 +4,7 @@
 int main()
 {
     initscr();
+    cbreak();
     noecho();
     game tetris;
     tetris.start_game();
