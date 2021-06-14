@@ -200,11 +200,6 @@ void game::clear_lines(board &matrix, tetromino &piece) {
         if(matrix.checkRows(i)){
             for(int j=0; j<matrix.get_width()+1; j++)
                 matrix.board_set(j, i,0);
-        for(int j=i;j<matrix.get_height()-1;j++)
-            for(int a=0; a<matrix.get_width()+1;a++)
-            //matrix.board_set(j, a, matrix.board_get(j+1,i+1));
-        break;
         }
     }
 }
-
