@@ -1,7 +1,3 @@
-//
-// Created by johnny on 30.05.2021.
-//
-
 #ifndef TETRIS_POINT_H
 #define TETRIS_POINT_H
 

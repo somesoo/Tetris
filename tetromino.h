@@ -3,7 +3,14 @@
 #include "point.h"
 #include <ncurses.h>
 #include <string>
-class tetromino {
+
+//pure virtual class
+class Shape{
+public:
+    virtual void draw(int rotation, char letter, int currentPiece, point currentpos) =0;
+};
+
+class tetromino: public Shape {
 private:
     int current;
     int rotation;
@@ -15,7 +22,7 @@ public:
     tetromino(const tetromino &object){
         current=object.current;
         rotation=object.rotation;
-        possition=object.possition;}    
+        possition=object.possition;}
     // equals operator
     tetromino & operator=(const tetromino&object){
         current=object.current;
