@@ -6,11 +6,25 @@
 class tetromino {
 private:
     int current;
-    int rotation=rand()%3;
+    int rotation;
     point possition;
 public:
+    //constructor that gives basic start info to the object
     tetromino(int py, int px, int currentPiece, int Rotation): possition(py, px), current(currentPiece), rotation(Rotation) {}
+    //copy constructor
+    tetromino(const tetromino &object){
+        current=object.current;
+        rotation=object.rotation;
+        possition=object.possition;}
+    // equals operator
+    tetromino & operator=(const tetromino&object){
+        current=object.current;
+        rotation=object.rotation;
+        possition=object.possition;
+        return *this;}
+    //getting current piece number [0-6]
     int get_current(){return current;}
+    //pieces template
     std::string tetro[7]={
             {"..I...I...I...I."},
             {"..J..JJ...J....."},
@@ -20,13 +34,16 @@ public:
             {".T...T...TT....."},
             {"..Z...Z..ZZ....."}
     };
+    //getters
     point get_poss(){return possition;}
     void set_possition_y(int y){possition.setY(y);}
     void set_possition_x(int x){possition.setX(x);}
     int get_rotation(){return rotation;}
     void set_rotation(int rot){rotation=rot;}
 
+    //function that rotates tetrominos
     int rotate(int point_y, int point_x, int rotateV);
+    //drawing itself on board before it becomes part of the board
     void draw(int rotation, char letter, int currentPiece, point currentpos);
 };
 

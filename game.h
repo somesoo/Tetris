@@ -11,6 +11,11 @@ private:
     bool isOver = false;
 public:
     Game();
+    Game(const Game &object){
+        isOver=object.isOver;}
+    Game & operator=(const Game&object){
+        isOver=object.isOver;
+        return *this;}
     static int score;
     static int piece_count;
     void start_game();

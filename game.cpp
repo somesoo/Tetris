@@ -41,8 +41,6 @@ void Game::start_game() {
         tetromino piece = new_falling_tetromino();
 
 
-        //tetromino piece2 = new_falling_tetromino();
-
 
         //game over conndition
         if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza))
