@@ -15,7 +15,7 @@ public:
         x=object.x;
         y=object.y;
         return *this;}
-    //getters
+    //get coordinates
     int get_x(){return x;}
     int get_y(){return y;}
     //set coordinates
