@@ -3,6 +3,7 @@
 
 int main()
 {
+    //in main there is ncurses screen initialization and starting game
     initscr();
     cbreak();
     noecho();
