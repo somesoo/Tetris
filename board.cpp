@@ -2,24 +2,24 @@
 #include "board.h"
 //#include "game.h"
 
-board::board() {
+Board::Board() {
 
-    Board = new bool *[get_width()+2];
+    board = new bool *[get_width()+2];
     for (int i = 0; i < get_width()+2; ++i) {
-        Board[i] = new bool[get_height()+1];
+        board[i] = new bool[get_height()+1];
         for (int j = 0; j < get_height()+1; ++j) {
-            Board[i][j] = false;
+            board[i][j] = false;
 //            if(j>17)
 //                Board[i][j]= true;
         }
     }
     for (int i = 0; i < get_width()+1; ++i)
-        Board[i][20]=true;
+        board[i][20]=true;
         for(int j = 0;j<get_height(); j++){
-            Board[0][j]=true;
-            Board[11][j]=true;}
+            board[0][j]=true;
+            board[11][j]=true;}
 }
-void board::draw_self(){
+void Board::draw_self(){
 
     //boundary
     for (int i = 0; i < get_height(); i++) {
@@ -34,26 +34,26 @@ void board::draw_self(){
     //currentpieces
     for(int i=1; i<get_width()+1;i++)
         for(int j=1;j<get_height()-1;j++)
-            if(Board[i][j]) {
+            if(board[i][j]) {
                 move(j+1, i+6);
                 printw("X");
             }
 }
 
-bool board::checkRows(int rowNum) {
+bool Board::checkRows(int rowNum) {
     for (int i = 0; i < get_width()+1; i++)
         if(!board_get(i, rowNum))
             return false;
     return true;
 }
 
-void board::move_lines(int rowcleared) {
+void Board::move_lines(int rowcleared) {
     for(int j=rowcleared; j>0; j--)
         for (int i = 0; i < get_width()+1; i++)
             board_set(i, j,board_get(i,j-1));
 }
-board::~board(){
+Board::~Board(){
     for(int i=0;i<get_width();++i)
-        delete[] Board[i];
-    delete[] Board;
+        delete[] board[i];
+    delete[] board;
 }

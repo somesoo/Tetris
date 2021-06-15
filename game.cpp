@@ -3,34 +3,34 @@
 #include <thread>
 #include "game.h"
 
-int game::score = 0;
-int game::piece_count = 0;
+int Game::score = 0;
+int Game::piece_count = 0;
 
-game::game()
+Game::Game()
 {
     srand((unsigned) time(NULL));
 }
 
-void game::game_over() {
+void Game::game_over() {
     isOver=true;
     move(0,0);
     printw("game over");
     getchar();
     clear();
     move(0,0);
-    printw("game over\nYour score: %i", game::score);
+    printw("game over\nYour score: %i", Game::score);
     refresh();
 }
 
 //function that chooses random piece and it rotation, as well as set it start coordinates
-tetromino game::new_falling_tetromino() {
+tetromino Game::new_falling_tetromino() {
     tetromino piece(4,0, rand()%6,rand()%3);
     return piece;
 }
-void game::start_game() {
+void Game::start_game() {
     noecho();
     cbreak();
-    board plansza;
+    Board plansza;
     unsigned int tick = 500;
     while(!is_over()) {
         //default game wait time
@@ -68,8 +68,8 @@ void game::start_game() {
 
             //updating score if piece get locked
             if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
-                game::score = game::score + 10;
-                game::piece_count++;
+                Game::score = Game::score + 10;
+                Game::piece_count++;
 
                 //locking piece into possition
                 check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
@@ -89,7 +89,7 @@ void game::start_game() {
 
             //drawing score and piece counter
             move(22, 0);
-            printw("Score: %i\nPiece counter: %i", game::score, game::piece_count);
+            printw("Score: %i\nPiece counter: %i", Game::score, Game::piece_count);
 
 
             //updating screen
@@ -108,7 +108,7 @@ int khirt()
     else
         return 115;
 }
-void game::moving(tetromino &piece, board &matrix){
+void Game::moving(tetromino &piece, Board &matrix){
 
     int num = khirt();
 
@@ -173,7 +173,7 @@ void game::moving(tetromino &piece, board &matrix){
     }
 }
 
-bool game::check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, board &matrix) {
+bool Game::check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, Board &matrix) {
 // creating loops for checking each character in array
     for (int px = 0; px < 4; px++)
         for (int py = 0; py < 4; py++) {
@@ -184,7 +184,7 @@ bool game::check_collisions(int currentTetromino, int currentRotation, int posY,
     return true;
 }
 
-void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino, int currentRotation, int posY, int posX) {
+void Game::check_for_lock(tetromino &piece, Board &matrix, int currentTetromino, int currentRotation, int posY, int posX) {
     //if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
         for (int px = 0; px < 4; px++)
             for (int py = 0; py < 4; py++)
@@ -192,7 +192,7 @@ void game::check_for_lock(tetromino &piece, board &matrix, int currentTetromino,
                     matrix.board_set((posY+py),(posX+px),1);}
 }
 
-void game::clear_lines(board &matrix, tetromino &piece) {
+void Game::clear_lines(Board &matrix, tetromino &piece) {
 int combopoints=0;
     for(int i=0; i<matrix.get_height()-1; i++) {
         if(matrix.checkRows(i)) {
@@ -202,5 +202,5 @@ int combopoints=0;
             matrix.move_lines(i);
         }
     }
-game::score=game::score+(combopoints*25);
+Game::score=Game::score+(combopoints*25);
 }

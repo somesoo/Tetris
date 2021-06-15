@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include <string>
 class tetromino {
+private:
     int current;
     int rotation=rand()%3;
     point possition;

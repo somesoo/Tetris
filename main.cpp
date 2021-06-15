@@ -6,7 +6,7 @@ int main()
     initscr();
     cbreak();
     noecho();
-    game tetris;
+    Game tetris;
     tetris.start_game();
     getchar();
     endwin();
