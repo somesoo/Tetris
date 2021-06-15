@@ -8,6 +8,7 @@ enter your project folder, and create build dir using
 ```
 cd/Tetris
 mkdir -p out/build/
+cd out/build/
 ```
 in directory ~/out/build/ use these commands to compile your program using cmake:
 ```
