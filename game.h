@@ -18,6 +18,7 @@ public:
         return *this;}
     static int score;
     static int piece_count;
+    static int tick;
     void start_game();
     bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, Board &matrix);
     tetromino new_falling_tetromino();

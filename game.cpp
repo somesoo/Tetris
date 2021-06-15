@@ -5,6 +5,7 @@
 
 int Game::score = 0;
 int Game::piece_count = 0;
+int Game::tick=500;
 
 Game::Game()
 {
@@ -31,8 +32,18 @@ void Game::start_game() {
     noecho();
     cbreak();
     Board plansza;
-    unsigned int tick = 500;
     while(!is_over()) {
+
+        //controll game tick
+        if(!(Game::piece_count % 10)){
+            Game::tick=Game::tick-50;
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            printw("Update thick");}
+        if(!(Game::score % 100)){
+            Game::tick=Game::tick-50;
+            std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+            printw("Update thick");}
+
         //default game wait time
         //std::this_thread::sleep_for(std::chrono::milliseconds(tick));
         //clearing screen for new possition
@@ -47,7 +58,7 @@ void Game::start_game() {
             game_over();
         //loop to check while piece can still move down, if so do it
         while(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
-            std::this_thread::sleep_for(std::chrono::milliseconds(tick));
+            std::this_thread::sleep_for(std::chrono::milliseconds(Game::tick));
 
 
             //clearing screen for new possition with current piece
