@@ -63,6 +63,7 @@ void Game::start_game() {
         if(!check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
                              reinterpret_cast<tetromino *&>(piece2), plansza)){
             game_over();
+            delete piece2;
             delete piece2;}
         //loop to check while piece can still move down, if so do it
         while(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
