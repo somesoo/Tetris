@@ -19,7 +19,7 @@ void Game::game_over() {
     getchar();
     clear();
     move(0,0);
-    printw("game over\nYour score: %i", Game::score);
+    printw("game over\nYour score: %i\n", Game::score);
     refresh();
 }
 
@@ -58,13 +58,14 @@ void Game::start_game() {
         Shape *piece3 = new tetromino(4, 0, rand()%6,rand()%3);
 
 
-        //piece = new_falling_tetromino();
+
         //game over conndition
         if(!check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
                              reinterpret_cast<tetromino *&>(piece2), plansza)){
-            game_over();
             delete piece2;
-            delete piece2;}
+            delete piece3;
+            game_over();
+            }
         //loop to check while piece can still move down, if so do it
         while(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
                                reinterpret_cast<tetromino *&>(piece2), plansza)) {
@@ -137,7 +138,8 @@ int khirt()
 void Game::moving(tetromino *&piece2, Board &plansza){
 
     int num = khirt();
-
+    move(0,0);
+    printw("current move: ");
 //  right   279167 // 100
 //  left    279168 // 97
 //  down    279166 // 115
@@ -150,7 +152,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
                                 reinterpret_cast<tetromino *&>(piece2), plansza))
             piece2->set_possition_y(piece2->get_poss().get_y()+1);
             piece2->set_possition_x(piece2->get_poss().get_x()+1);
-            move(8,20);
+            move(0,18);
             printw("right");
             refresh();
             break;
@@ -160,7 +162,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
                                 reinterpret_cast<tetromino *&>(piece2), plansza))
                 piece2->set_possition_y(piece2->get_poss().get_y()-1);
                 piece2->set_possition_x(piece2->get_poss().get_x()+1);
-            move(8,20);
+            move(0,18);
             printw("left");
             refresh();
             break;
@@ -169,7 +171,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
             if(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
                                 reinterpret_cast<tetromino *&>(piece2), plansza))
             piece2->set_possition_x(piece2->get_poss().get_x()+1); // moving piece down is working fine
-            move(8,20);
+            move(0,18);
             printw("down");
             refresh();
             break;
@@ -180,7 +182,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
                                 reinterpret_cast<tetromino *&>(piece2), plansza))
             piece2->set_rotation(piece2->get_rotation()+1);
             piece2->set_possition_x(piece2->get_poss().get_x()+1);
-            move(8,20);
+            move(0,18);
             printw("rotate");
             refresh();
             break;
@@ -190,7 +192,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
                                 reinterpret_cast<tetromino *&>(piece2), plansza))
             piece2->set_rotation(piece2->get_rotation()+1);
             piece2->set_possition_x(piece2->get_poss().get_x()+1);
-            move(8,20);
+            move(0,18);
             printw("rotate");
             refresh();
             break;
@@ -198,7 +200,7 @@ void Game::moving(tetromino *&piece2, Board &plansza){
             game_over();
             break;
         default:
-            move(8,20);
+            move(0,18);
             printw("wrong input");
             refresh();
     }
