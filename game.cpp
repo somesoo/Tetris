@@ -2,7 +2,6 @@
 #include <time.h>
 #include <thread>
 #include "game.h"
-#include <memory>
 
 int Game::score = 0;
 int Game::piece_count = 0;
@@ -40,12 +39,12 @@ void Game::start_game() {
 
         //controll game tick
         if(!(Game::piece_count % 10)){
-            Game::tick=Game::tick-50;
+            Game::tick=Game::tick-10;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             printw("Update thick");}
 
         if(!(Game::score % 100)){
-            Game::tick=Game::tick-50;
+            Game::tick=Game::tick-10;
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             printw("Update thick");}
 
@@ -64,6 +63,7 @@ void Game::start_game() {
         if(!check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
                              reinterpret_cast<tetromino *&>(piece2), plansza)){
             delete piece2;
+            delete piece3;
             game_over();
             }
         //loop to check while piece can still move down, if so do it
@@ -107,7 +107,7 @@ void Game::start_game() {
             piece3->draw(piece3->get_rotation(), 'X', piece3->get_current(), 10, 30);
 
             //drawing current piece
-            piece2->draw(piece2->get_rotation(), 'O', piece2->get_current() , piece2->get_poss().get_x(), piece2->get_poss().get_y());
+            piece2->draw(piece2->get_rotation(), '0', piece2->get_current() , piece2->get_poss().get_x(), piece2->get_poss().get_y());
 
             //drawing board - boundary and already solid places
             plansza.draw_self();
@@ -122,7 +122,7 @@ void Game::start_game() {
 
         }
         piece2 = piece3;//(4, 0, piece.get_current(), piece.get_rotation());
-        delete piece3;
+
     }
     //delete piece2;
 }
@@ -236,5 +236,5 @@ int combopoints=0;
             matrix.move_lines(i);
         }
     }
-Game::score=Game::score+(combopoints*25);
+Game::score=Game::score+(combopoints*2*25);
 }
