@@ -4,10 +4,16 @@
 #include <ncurses.h>
 #include <string>
 
+class tetromino;
+
 //pure virtual class
 class Shape{
 public:
-    virtual void draw(int rotation, char letter, int currentPiece, point currentpos) =0;
+    virtual void draw(int rotation, char letter, int currentPiece, int currentpos_x, int currentpos_y) =0;
+    virtual int get_current()=0;
+    virtual int get_rotation()=0;
+    virtual point get_poss()=0;
+//    virtual tetromino return_object(Shape *pointer)=0;
 };
 
 class tetromino: public Shape {
@@ -24,11 +30,16 @@ public:
         rotation=object.rotation;
         possition=object.possition;}
     // equals operator
-    tetromino & operator=(const tetromino&object){
-        current=object.current;
-        rotation=object.rotation;
-        possition=object.possition;
+    tetromino & operator=(tetromino *object){
+        current=object->get_current();
+        rotation=object->get_rotation();
+        possition=object->get_poss();
         return *this;}
+//    tetromino & operator=(Shape *object){
+//        current=object->get_current();
+//        rotation=object->get_rotation();
+//        possition=object->get_poss();
+//        return *this;}
     //getting current piece number [0-6]
     int get_current(){return current;}
     //pieces template
@@ -51,7 +62,12 @@ public:
     //function that rotates tetrominos
     int rotate(int point_y, int point_x, int rotateV);
     //drawing itself on board before it becomes part of the board
-    void draw(int rotation, char letter, int currentPiece, point currentpos);
+    void draw(int rotation, char letter, int currentPiece, int currentpos_x, int currentpos_y);
+
+//    tetromino return_object(Shape *pointer){
+//        tetromino test(4, 0, pointer->get_current(), pointer->get_rotation());
+//        return test;
+//    }
 };
 
 /*

@@ -32,13 +32,17 @@ void Game::start_game() {
     noecho();
     cbreak();
     Board plansza;
+    Shape *piece2;
+    piece2 = new tetromino(4, 0, rand()%6,rand()%3);
     while(!is_over()) {
+
 
         //controll game tick
         if(!(Game::piece_count % 10)){
             Game::tick=Game::tick-50;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
             printw("Update thick");}
+
         if(!(Game::score % 100)){
             Game::tick=Game::tick-50;
             std::this_thread::sleep_for(std::chrono::milliseconds(1000));
@@ -46,18 +50,23 @@ void Game::start_game() {
 
         //default game wait time
         //std::this_thread::sleep_for(std::chrono::milliseconds(tick));
+
         //clearing screen for new possition
         clear();
         //creating new piece to be shown on board
-        tetromino piece = new_falling_tetromino();
+        //tetromino piece = new_falling_tetromino();
+        Shape *piece3 = new tetromino(4, 0, rand()%6,rand()%3);
 
 
-
+        //piece = new_falling_tetromino();
         //game over conndition
-        if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza))
+        if(!check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                             reinterpret_cast<tetromino *&>(piece2), plansza)){
             game_over();
+            delete piece2;}
         //loop to check while piece can still move down, if so do it
-        while(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
+        while(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                               reinterpret_cast<tetromino *&>(piece2), plansza)) {
             std::this_thread::sleep_for(std::chrono::milliseconds(Game::tick));
 
 
@@ -66,32 +75,37 @@ void Game::start_game() {
 
 
             // default gravity
-            if (check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x() + 1, piece, plansza))
-                //piece.set_possition_x(piece.get_poss().get_x() + 1);
+            if (check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                                 reinterpret_cast<tetromino *&>(piece2), plansza))
+            //    piece.set_possition_x(piece.get_poss().get_x() + 1);
 
                 //get movement from player
-                moving(piece, plansza);
+                moving(reinterpret_cast<tetromino *&>(piece2), plansza);
 
 
 
 
             //updating score if piece get locked
-            if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, plansza)) {
+            if(!check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                                 reinterpret_cast<tetromino *&>(piece2), plansza)) {
                 Game::score = Game::score + 10;
                 Game::piece_count++;
 
                 //locking piece into possition
-                check_for_lock(piece, plansza, piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),
-                               piece.get_poss().get_x());
+                check_for_lock(reinterpret_cast<tetromino *&>(piece2), plansza, piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),
+                               piece2->get_poss().get_x());
 
-                clear_lines(plansza, piece);
+                clear_lines(plansza, reinterpret_cast<tetromino *&>(piece3));
 
             }
 
+            //drawing next piece
+            move(8,30);
+            printw("Next piece:");
+            piece3->draw(piece3->get_rotation(), 'X', piece3->get_current(), 10, 30);
 
             //drawing current piece
-            piece.draw(piece.get_rotation(), 'X', piece.get_current(), piece.get_poss());
-
+            piece2->draw(piece2->get_rotation(), 'O', piece2->get_current() , piece2->get_poss().get_x(), piece2->get_poss().get_y());
 
             //drawing board - boundary and already solid places
             plansza.draw_self();
@@ -105,7 +119,9 @@ void Game::start_game() {
             refresh();
 
         }
+        piece2 = piece3;//(4, 0, piece.get_current(), piece.get_rotation());
     }
+    //delete piece2;
 }
 
 int khirt()
@@ -117,7 +133,7 @@ int khirt()
     else
         return 115;
 }
-void Game::moving(tetromino &piece, Board &matrix){
+void Game::moving(tetromino *&piece2, Board &plansza){
 
     int num = khirt();
 
@@ -129,26 +145,29 @@ void Game::moving(tetromino &piece, Board &matrix){
     switch (num) {
         case 100:
             //printw("right\n");
-            if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()+1,piece.get_poss().get_x(), piece, matrix))
-            piece.set_possition_y(piece.get_poss().get_y()+1);
-            piece.set_possition_x(piece.get_poss().get_x()+1);
+            if(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y()+1,piece2->get_poss().get_x()+1,
+                                reinterpret_cast<tetromino *&>(piece2), plansza))
+            piece2->set_possition_y(piece2->get_poss().get_y()+1);
+            piece2->set_possition_x(piece2->get_poss().get_x()+1);
             move(8,20);
             printw("right");
             refresh();
             break;
         case 97:
             //printw("left\n");
-            if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y()-1,piece.get_poss().get_x(), piece, matrix))
-            piece.set_possition_y(piece.get_poss().get_y()-1);
-            piece.set_possition_x(piece.get_poss().get_x()+1);
+            if(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y()-1,piece2->get_poss().get_x()+1,
+                                reinterpret_cast<tetromino *&>(piece2), plansza))
+                piece2->set_possition_y(piece2->get_poss().get_y()-1);
+                piece2->set_possition_x(piece2->get_poss().get_x()+1);
             move(8,20);
             printw("left");
             refresh();
             break;
         case 115:
             //printw("down\n");
-            if(check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
-            piece.set_possition_x(piece.get_poss().get_x()+1); // moving piece down is working fine
+            if(check_collisions(piece2->get_current(), piece2->get_rotation(), piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                                reinterpret_cast<tetromino *&>(piece2), plansza))
+            piece2->set_possition_x(piece2->get_poss().get_x()+1); // moving piece down is working fine
             move(8,20);
             printw("down");
             refresh();
@@ -156,18 +175,20 @@ void Game::moving(tetromino &piece, Board &matrix){
         case 120:
             //printw("rotate\n");
             //piece.set_rotation(getchar());
-            if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
-            piece.set_rotation(piece.get_rotation()+1);
-            piece.set_possition_x(piece.get_poss().get_x()+1);
+            if(check_collisions(piece2->get_current(), piece2->get_rotation()+1, piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                                reinterpret_cast<tetromino *&>(piece2), plansza))
+            piece2->set_rotation(piece2->get_rotation()+1);
+            piece2->set_possition_x(piece2->get_poss().get_x()+1);
             move(8,20);
             printw("rotate");
             refresh();
             break;
         case 32:
             //printw("space\n");
-            if(check_collisions(piece.get_current(), piece.get_rotation()+1, piece.get_poss().get_y(),piece.get_poss().get_x(), piece, matrix))
-            piece.set_rotation(piece.get_rotation()+1);
-            piece.set_possition_x(piece.get_poss().get_x()+1);
+            if(check_collisions(piece2->get_current(), piece2->get_rotation()+1, piece2->get_poss().get_y(),piece2->get_poss().get_x()+1,
+                                reinterpret_cast<tetromino *&>(piece2), plansza))
+            piece2->set_rotation(piece2->get_rotation()+1);
+            piece2->set_possition_x(piece2->get_poss().get_x()+1);
             move(8,20);
             printw("rotate");
             refresh();
@@ -182,26 +203,26 @@ void Game::moving(tetromino &piece, Board &matrix){
     }
 }
 
-bool Game::check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, Board &matrix) {
+bool Game::check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino *&piece, Board &matrix) {
 // creating loops for checking each character in array
     for (int px = 0; px < 4; px++)
         for (int py = 0; py < 4; py++) {
             //if(piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.')
-            if (piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.' && matrix.board_get((posY+py),(posX+px))!=0)
+            if (piece->tetro[currentTetromino][piece->rotate(py, px, currentRotation)]!='.' && matrix.board_get((posY+py),(posX+px))!=0)
                 return false;
         }
     return true;
 }
 
-void Game::check_for_lock(tetromino &piece, Board &matrix, int currentTetromino, int currentRotation, int posY, int posX) {
+void Game::check_for_lock(tetromino *&piece, Board &matrix, int currentTetromino, int currentRotation, int posY, int posX) {
     //if(!check_collisions(piece.get_current(), piece.get_rotation(), piece.get_poss().get_y(),piece.get_poss().get_x()+1, piece, matrix))
         for (int px = 0; px < 4; px++)
             for (int py = 0; py < 4; py++)
-                if(piece.tetro[currentTetromino][piece.rotate(py, px, currentRotation)]!='.'){
+                if(piece->tetro[currentTetromino][piece->rotate(py, px, currentRotation)]!='.'){
                     matrix.board_set((posY+py),(posX+px),1);}
 }
 
-void Game::clear_lines(Board &matrix, tetromino &piece) {
+void Game::clear_lines(Board &matrix, tetromino *&piece) {
 int combopoints=0;
     for(int i=0; i<matrix.get_height()-1; i++) {
         if(matrix.checkRows(i)) {

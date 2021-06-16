@@ -1,10 +1,10 @@
 #include "tetromino.h"
 #include <ncurses.h>
 
-void tetromino::draw(int rot, char letter, int currentPiece, point currentpos) {
+void tetromino::draw(int rot, char letter, int currentPiece, int currentpos_x, int currentpos_y) {
     for (int py = 0; py < 4; py++)
         for (int px = 0; px < 4; px++) {
-            move(currentpos.get_x()+px,currentpos.get_y()+py+6);
+            move(currentpos_x+px,currentpos_y+py+6);
             if (tetro[currentPiece][rotate(py, px, rot)]!='.')
                 printw("%c", letter);
         }

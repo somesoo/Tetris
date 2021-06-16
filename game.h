@@ -20,13 +20,17 @@ public:
     static int piece_count;
     static int tick;
     void start_game();
-    bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino &piece, Board &matrix);
+    bool check_collisions(int currentTetromino, int currentRotation, int posY, int posX, tetromino *&piece, Board &matrix);
     tetromino new_falling_tetromino();
-    void check_for_lock(tetromino &piece, Board &matrix, int currentTetromino, int currentRotation, int posY, int posX);
+    void check_for_lock(tetromino *&piece, Board &matrix, int currentTetromino, int currentRotation, int posY, int posX);
     bool is_over() const {return isOver;}
     void game_over();
-    void moving(tetromino &piece, Board &matrix);
-    void clear_lines(Board &matrix, tetromino &piece);
+    void moving(tetromino *&piece, Board &matrix);
+    void clear_lines(Board &matrix, tetromino *&piece);
+//    tetromino return_object(Shape *pointer){
+//        tetromino test(4, 0, pointer->get_current(), pointer->get_rotation());
+//        return test;
+//    }
 };
 
 #endif //TETRIS_GAME_H
